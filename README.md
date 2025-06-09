@@ -1,5 +1,7 @@
 # Kiswahili EdgeVoice Challenge 2025 - Starter Notebooks
 
+https://github.com/Sartify/swahili-challenge-competition/blob/07f4265edb0f887ed26fe6eacc6627fc4630b848/image.png
+
 > **Tiny-Lugha: Efficient Kiswahili AI Speech Stack Challenge**
 > 
 > Build lightweight STT + LLM + TTS pipeline optimized for NVIDIA T4 GPU (≤16GB)
