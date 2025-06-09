@@ -1,4 +1,4 @@
-# Kiswahili EdgeVoice Challenge 2025 - Starter Notebooks
+# Kiswahili EdgeVoice Challenge 2025() - Starter Notebooks
 
 ![image alt](https://github.com/Sartify/swahili-challenge-competition/blob/07f4265edb0f887ed26fe6eacc6627fc4630b848/image.png?raw=True)
 
