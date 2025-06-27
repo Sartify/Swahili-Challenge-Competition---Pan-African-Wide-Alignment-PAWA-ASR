@@ -289,17 +289,131 @@ if __name__ == "__main__":
     print(f"Batch WER: {batch_wer:.3f}")
 ```
 
-### Resource Monitoring
+### Running Pawa HF API
 ```python
+# !pip install --upgrade "transformers>=4.52.0" "accelerate" 
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+ 
 
-def check_gpu_memory():
-    if torch.cuda.is_available():
-        memory_gb = torch.cuda.memory_allocated() / 1024**3
-        print(f"GPU Memory: {memory_gb:.2f}GB / 16GB")
-        return memory_gb
-    return 0
+# ---- Step 1: Capture initial memory stats ----
+gpu_stats = torch.cuda.get_device_properties(0)
+max_memory = round(gpu_stats.total_memory / 1024**3, 3)
+start_reserved = round(torch.cuda.max_memory_reserved() / 1024**3, 3)
+
+print(f"🖥️ GPU: {gpu_stats.name}")
+print(f"📊 Max memory: {max_memory} GB")
+print(f"🔹 Reserved before Inference: {start_reserved} GB")
+
+
+
+# Model configuration
+model_name = "sartifyllc/pawa-min-alpha"
+max_seq_length = 2048
+
+# Load model and tokenizer
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=torch.bfloat16,  # Use float16 for efficiency
+    device_map="auto",  # Automatically handle device placement
+    trust_remote_code=True  # In case the model requires custom code
+)
+
+tokenizer = AutoTokenizer.from_pretrained(
+    model_name,
+    trust_remote_code=True
+)
+
+# Set padding token if not already set
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+# Configure chat template (ChatML format)
+def apply_chatml_template(messages):
+    """Apply ChatML template to conversation messages"""
+    formatted_text = ""
+    for message in messages:
+        role = message.get("role", message.get("from", ""))
+        content = message.get("content", message.get("value", ""))
+        
+        # Map role names
+        if role == "human" or role == "user":
+            role = "user"
+        elif role == "gpt" or role == "assistant":
+            role = "assistant"
+        elif role == "system":
+            role = "system"
+            
+        formatted_text += f"<|im_start|>{role}\n{content}<|im_end|>\n"
+    
+    # Add assistant start token for generation
+    formatted_text += "<|im_start|>assistant\n"
+    return formatted_text
+
+# Example usage function
+def generate_response(messages, max_new_tokens=64):
+    """Generate response for a conversation"""
+    
+    # Format the conversation with ChatML template
+    if isinstance(messages, str):
+        # If single string input, treat as user message
+        messages = [{"role": "user", "content": messages}]
+    
+    formatted_input = apply_chatml_template(messages)
+    
+    # Tokenize input
+    inputs = tokenizer(
+        formatted_input,
+        return_tensors="pt",
+        max_length=max_seq_length,
+        truncation=True,
+        padding=True
+    )
+    
+    # Move to same device as model
+    inputs = {k: v.to(model.device) for k, v in inputs.items()}
+    
+    # Generate response
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=True,
+            temperature=0.2,
+            top_p=0.9,
+            pad_token_id=tokenizer.pad_token_id,
+            eos_token_id=tokenizer.eos_token_id,
+            use_cache=True
+        )
+    
+    # Decode and return response
+    response = tokenizer.batch_decode(outputs, skip_special_tokens=False)
+    return response
+
+
+# Example usage:
+if __name__ == "__main__":
+    # Method 1: Manual approach
+    messages = [
+        {"role": "user", "content": "Translate to English from swahili the following world: 'Baba yangu ni Shujaa'"}
+    ]
+    
+    response = generate_response(messages, max_new_tokens=64)
+    print("Generated response:", response)
+    
+
+# ---- Step 3: Capture final memory stats ----
+end_reserved = round(torch.cuda.max_memory_reserved() / 1024**3, 3)
+delta_reserved = round(end_reserved - start_reserved, 3)
+percent_used = round(end_reserved / max_memory * 100, 3)
+percent_delta = round(delta_reserved / max_memory * 100, 3)
+
+print(f"\n📈 Peak reserved memory after Inference: {end_reserved} GB")
+print(f"📉 Additional memory used for Inference: {delta_reserved} GB")
+print(f"💯 Total memory used (%): {percent_used} %")
+print(f"🧠 Inference memory usage (%): {percent_delta} %")
 ```
+
 
 ### Real-Time Performance
 ```python
