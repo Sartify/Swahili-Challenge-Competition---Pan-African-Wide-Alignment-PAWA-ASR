@@ -67,6 +67,228 @@ This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice
 
 ##  Key Features
 
+### Word Error Rate 
+```python
+import re
+from typing import List, Tuple, Union
+import numpy as np
+
+def calculate_wer(reference: str, hypothesis: str, normalize: bool = True) -> float:
+    """
+    Calculate Word Error Rate (WER) between reference and hypothesis strings.
+    
+    WER = (S + D + I) / N
+    Where:
+    - S = number of substitutions
+    - D = number of deletions  
+    - I = number of insertions
+    - N = number of words in reference
+    
+    Args:
+        reference (str): Ground truth text
+        hypothesis (str): Predicted/transcribed text
+        normalize (bool): Whether to normalize text (lowercase, remove punctuation)
+    
+    Returns:
+        float: Word Error Rate (0.0 = perfect match, higher = more errors)
+    """
+    if normalize:
+        reference = normalize_text(reference)
+        hypothesis = normalize_text(hypothesis)
+    
+    ref_words = reference.split()
+    hyp_words = hypothesis.split()
+    
+    # Get edit distance and operations
+    distance, operations = levenshtein_distance_with_operations(ref_words, hyp_words)
+    
+    # Count operations
+    substitutions = operations.count('S')
+    deletions = operations.count('D')
+    insertions = operations.count('I')
+    
+    # Calculate WER
+    n_ref_words = len(ref_words)
+    if n_ref_words == 0:
+        return 0.0 if len(hyp_words) == 0 else float('inf')
+    
+    wer = (substitutions + deletions + insertions) / n_ref_words
+    return wer
+
+def calculate_wer_detailed(reference: str, hypothesis: str, normalize: bool = True) -> dict:
+    """
+    Calculate detailed WER metrics with breakdown of error types.
+    
+    Returns:
+        dict: Contains WER, error counts, and additional metrics
+    """
+    if normalize:
+        reference = normalize_text(reference)
+        hypothesis = normalize_text(hypothesis)
+    
+    ref_words = reference.split()
+    hyp_words = hypothesis.split()
+    
+    # Get edit distance and operations
+    distance, operations = levenshtein_distance_with_operations(ref_words, hyp_words)
+    
+    # Count operations
+    substitutions = operations.count('S')
+    deletions = operations.count('D')
+    insertions = operations.count('I')
+    matches = operations.count('M')
+    
+    n_ref_words = len(ref_words)
+    n_hyp_words = len(hyp_words)
+    
+    # Calculate metrics
+    wer = (substitutions + deletions + insertions) / n_ref_words if n_ref_words > 0 else 0.0
+    accuracy = matches / n_ref_words if n_ref_words > 0 else 0.0
+    
+    return {
+        'wer': wer,
+        'accuracy': accuracy,
+        'substitutions': substitutions,
+        'deletions': deletions,
+        'insertions': insertions,
+        'matches': matches,
+        'reference_words': n_ref_words,
+        'hypothesis_words': n_hyp_words,
+        'edit_distance': distance
+    }
+
+def levenshtein_distance_with_operations(ref_words: List[str], hyp_words: List[str]) -> Tuple[int, List[str]]:
+    """
+    Calculate Levenshtein distance with operation tracking.
+    
+    Returns:
+        Tuple[int, List[str]]: (edit_distance, operations_list)
+        Operations: 'M' = match, 'S' = substitution, 'D' = deletion, 'I' = insertion
+    """
+    n, m = len(ref_words), len(hyp_words)
+    
+    # Create distance matrix
+    dp = np.zeros((n + 1, m + 1), dtype=int)
+    
+    # Initialize first row and column
+    for i in range(n + 1):
+        dp[i][0] = i
+    for j in range(m + 1):
+        dp[0][j] = j
+    
+    # Fill the matrix
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if ref_words[i-1] == hyp_words[j-1]:
+                dp[i][j] = dp[i-1][j-1]  # Match
+            else:
+                dp[i][j] = 1 + min(
+                    dp[i-1][j],      # Deletion
+                    dp[i][j-1],      # Insertion
+                    dp[i-1][j-1]     # Substitution
+                )
+    
+    # Backtrack to find operations
+    operations = []
+    i, j = n, m
+    
+    while i > 0 or j > 0:
+        if i > 0 and j > 0 and ref_words[i-1] == hyp_words[j-1]:
+            operations.append('M')  # Match
+            i -= 1
+            j -= 1
+        elif i > 0 and j > 0 and dp[i][j] == dp[i-1][j-1] + 1:
+            operations.append('S')  # Substitution
+            i -= 1
+            j -= 1
+        elif i > 0 and dp[i][j] == dp[i-1][j] + 1:
+            operations.append('D')  # Deletion
+            i -= 1
+        else:
+            operations.append('I')  # Insertion
+            j -= 1
+    
+    operations.reverse()
+    return dp[n][m], operations
+
+def normalize_text(text: str) -> str:
+    """
+    Normalize text for WER calculation.
+    - Convert to lowercase
+    - Remove punctuation
+    - Normalize whitespace
+    """
+    # Convert to lowercase
+    text = text.lower()
+    
+    # Remove punctuation (keep only letters, numbers, spaces)
+    text = re.sub(r'[^\w\s]', '', text)
+    
+    # Normalize whitespace
+    text = re.sub(r'\s+', ' ', text).strip()
+    
+    return text
+
+def calculate_batch_wer(references: List[str], hypotheses: List[str], normalize: bool = True) -> float:
+    """
+    Calculate WER for a batch of reference-hypothesis pairs.
+    
+    Args:
+        references: List of reference texts
+        hypotheses: List of hypothesis texts
+        normalize: Whether to normalize texts
+    
+    Returns:
+        float: Average WER across all pairs
+    """
+    if len(references) != len(hypotheses):
+        raise ValueError("References and hypotheses must have the same length")
+    
+    total_errors = 0
+    total_words = 0
+    
+    for ref, hyp in zip(references, hypotheses):
+        if normalize:
+            ref = normalize_text(ref)
+            hyp = normalize_text(hyp)
+        
+        ref_words = ref.split()
+        hyp_words = hyp.split()
+        
+        distance, _ = levenshtein_distance_with_operations(ref_words, hyp_words)
+        
+        total_errors += distance
+        total_words += len(ref_words)
+    
+    return 100*total_errors / total_words if total_words > 0 else 0.0
+
+# Example usage and testing
+if __name__ == "__main__":
+    # Test examples
+    reference = "Mheshimiwa samia suluhu hassan ni Rais wa Jamhuri ya Muungano wa Tanzania "
+    hypothesis1 = "Mheshimiwa samia suluhu hassan ni Rais wa Jamhuri ya Muungano wa Tanzania "  # Perfect match
+    hypothesis2 = "Mheshimiwa samia suluhu hassan ni Rai wa Jamhuri ya Muungano wa Tanzania "  # 1 substitution
+    hypothesis3 = "Mheshimiwa samia suluhu hassan ni  wa Jamhuri ya Muungano wa Tanzania "  # 1 deletion
+    hypothesis4 = "Mheshimiwa samia suluhu hassan ni Rais wa Jamhuri ya Muungano wa Tanzania Nzima"  # 1 insertion
+    
+    print("WER Examples:")
+    print(f"Perfect match: {calculate_wer(reference, hypothesis1):.3f}")
+    print(f"1 substitution: {calculate_wer(reference, hypothesis2):.3f}")
+    print(f"1 deletion: {calculate_wer(reference, hypothesis3):.3f}")
+    print(f"1 insertion: {calculate_wer(reference, hypothesis4):.3f}")
+    
+    print("\nDetailed WER for substitution example:")
+    detailed = calculate_wer_detailed(reference, hypothesis3)
+    for key, value in detailed.items():
+        print(f"{key}: {value}")
+    
+    print("\nBatch WER example:")
+    refs = [reference, reference]
+    hyps = [hypothesis1, hypothesis2]
+    batch_wer = calculate_batch_wer(refs, hyps)
+    print(f"Batch WER: {batch_wer:.3f}")
+```
+
 ### Resource Monitoring
 ```python
 import torch
