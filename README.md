@@ -8,11 +8,10 @@
 
 ## Challenge Overview
 
-This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice Challenge. The goal is to create an end-to-end voice AI system that:
+This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice Challenge. The goal is to create voice to text AI system that:
 
 1. **Speech-to-Text (STT)**: Transcribe Kiswahili audio with low Word Error Rate (WER)
-2. **Language Understanding**: Process text through Pawa-Gemma-Swahili-2B
-3. **Text-to-Speech (TTS)**: Generate natural Kiswahili speech with high Mean Opinion Score (MOS)
+2. **Language Understanding**: Process text (translate from Swahili to English) through Pawa-Gemma-Swahili-2B
 
 **All running on a single NVIDIA T4 GPU within Google Colab's free tier!**
 
@@ -38,11 +37,6 @@ This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice
 - **Size**: 100+ hours of labeled Kiswahili speech
 - **License**: CC-0 1.0
 
-### Text-to-Speech  
-- **Source**: [Mendeley TTS Dataset](https://data.mendeley.com/datasets/vbvj6j6pm9/1)
-- **Size**: 7K utterance pairs
-- **License**: CC-BY 4.0
-
 ### Language Model
 - **Model**: [Pawa-Gemma-Swahili-2B](https://huggingface.co/sartifyllc/Pawa-Gemma-Swahili-2B)
 - **Parameters**: 2B
@@ -53,12 +47,7 @@ This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice
 ### Speech-to-Text
 - **Base Model**: OpenAI Whisper-small
 - **Optimization**: Fine-tuned on Kiswahili data
-- **Target WER**: <15%
-
-### Text-to-Speech
-- **Base Model**: Microsoft SpeechT5
-- **Optimization**: Fine-tuned with Kiswahili speaker embeddings
-- **Target MOS**: >3.5
+- **Target WER**: less the better
 
 ### Integration
 - **Memory Budget**: ≤16GB GPU memory
@@ -69,7 +58,7 @@ This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice
 
 | Component | Metric | Weight | Target |
 |-----------|---------|---------|---------|
-| **STT** | Word Error Rate (WER) | 35% | <15% |
+| **STT** | Word Error Rate (WER) | 50% | <15% |
 | **STT** | Real-Time Factor | 5% | <1.0 |
 | **TTS** | Mean Opinion Score (MOS) | 35% | >3.5 |
 | **TTS** | Mel-Cepstral Distortion | 5% | Lower is better |
@@ -95,9 +84,9 @@ def check_gpu_memory():
 import time
 
 def measure_rtf(audio_duration, inference_time):
-    rtf = inference_time / audio_duration
-    print(f"Real-Time Factor: {rtf:.3f}")
-    return rtf
+    rtfx = audio_duration / inference_time 
+    print(f"Real-Time Factor: {rtfx:.3f}")
+    return rtfx
 ```
 
 ### End-to-End Pipeline
@@ -109,11 +98,8 @@ def voice_assistant(audio_input):
     
     # LLM: Text → Response
     response = llm_model.generate(transcript)
-    
-    # TTS: Text → Audio
-    audio_output = tts_model.synthesize(response)
-    
-    return audio_output, transcript, response
+
+    return transcript, response
 ```
 
 ##  Submission Requirements
@@ -121,10 +107,10 @@ def voice_assistant(audio_input):
 Your final submission should include:
 
 1. **Code Repository**: All training and inference code
-2. **Model Weights**: Fine-tuned checkpoints under 16GB total
-3. **Technical Report**: 4-page PDF with methodology and results
+2. **Model Weights**: Fine-tuned checkpoints under 10GB total
+3. **Technical Report**: Max of 4-page PDF with methodology and results
 4. **Demo Video**: Working prototype demonstration
-5. **Performance Metrics**: WER, MOS, RTF, memory usage
+5. **Performance Metrics**: WER, RTFx, memory usage
 
 ## 🎯 Tips for Success
 
