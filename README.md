@@ -51,8 +51,7 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 
 ### Integration
 - **Memory Budget**: ≤16GB GPU memory
-- **Real-Time Factor**: <1.0 for STT/TTS
-- **End-to-end Latency**: <3 seconds
+- **Inverse Real-Time Factor**: >100 for STT
 
 ##  Evaluation Criteria
 
