@@ -59,17 +59,10 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 |-----------|---------|---------|---------| ---------| ---------|
 | **STT** | Word Error Rate (WER) | 85% | <15 |lower is better | $s_{\text{WER}}=\max\!\bigl(0,\;1-\tfrac{\text{WER}}{15}\bigr)$ |
 | **STT** | Inverse Real-Time Factor | 5% | >100 | higher is better | $s_{\text{IRTF}}=\min\!\bigl(1,\;\tfrac{\text{IRTF}}{100}\bigr)$ |
-| **System** | Peak GPU Memory | 5% | lower is better  | <16GB | $s_{\text{MEM}}=\max\!\bigl(0,\;1-\tfrac{\text{MEM}}{16}\bigr)$  |
+| **System** | Peak GPU Memory | 5% | lower is better  | <16GB | $s_{\text{MEM}}=\max\bigl(0,\;1-\tfrac{\text{MEM}}{16}\bigr)$  |
 | **Documentation** | Technical Report | 5% | Clear & reproducible |yes / no         | $s_{\text{DOC}}=1$ if clear, else 0 |
 
 ##  Key Features
-| Metric       | Target               | Direction        | Per-metric score $s$                                             |
-| ------------ | -------------------- | ---------------- | ---------------------------------------------------------------- |
-| **WER**      | ≤ 15 %               | lower is better  | $s_{\text{WER}}=\max\!\bigl(0,\;1-\tfrac{\text{WER}}{15}\bigr)$  |
-| **IRTF**     | ≥ 100                | higher is better | $s_{\text{IRTF}}=\min\!\bigl(1,\;\tfrac{\text{IRTF}}{100}\bigr)$ |
-| **Peak Mem** | ≤ 16 GB              | lower is better  | $s_{\text{MEM}}=\max\!\bigl(0,\;1-\tfrac{\text{MEM}}{16}\bigr)$  |
-| **Report**   | clear & reproducible | yes / no         | $s_{\text{DOC}}=1$ if clear, else 0                              |
-
 
 ### Word Error Rate 
 ```python
