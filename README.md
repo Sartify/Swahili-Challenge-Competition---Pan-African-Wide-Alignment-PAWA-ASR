@@ -73,8 +73,8 @@ def score(wer, irtf, mem_gb, report):
     s_doc = report/100
     return 0.85*s_wer + 0.05*s_irtf + 0.05*s_mem + 0.05*s_doc
 
-A = score(wer=10, irtf=110, mem_gb=5,  report_ok=True)
-B = score(wer=9,  irtf=105, mem_gb=6,  report_ok=True)
+A = score(wer=10, irtf=110, mem_gb=5,  report=84)
+B = score(wer=9,  irtf=105, mem_gb=6,  report=92)
 print(f"System A = {A*100:.2f}%  |  System B = {B*100:.2f}%")
 ```
 
