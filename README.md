@@ -58,12 +58,10 @@ This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice
 
 | Component | Metric | Weight | Target |
 |-----------|---------|---------|---------|
-| **STT** | Word Error Rate (WER) | 50% | <15% |
+| **STT** | Word Error Rate (WER) | 85% | <15% |
 | **STT** | Real-Time Factor | 5% | <1.0 |
-| **TTS** | Mean Opinion Score (MOS) | 35% | >3.5 |
-| **TTS** | Mel-Cepstral Distortion | 5% | Lower is better |
-| **System** | Peak GPU Memory | 10% | ≤16GB |
-| **Documentation** | Technical Report | 10% | Clear & reproducible |
+| **System** | Peak GPU Memory | 5% | ≤16GB |
+| **Documentation** | Technical Report | 5% | Clear & reproducible |
 
 ##  Key Features
 
