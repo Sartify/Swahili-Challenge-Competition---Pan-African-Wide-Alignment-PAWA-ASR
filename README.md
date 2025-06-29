@@ -68,9 +68,9 @@ Final Score S: 0.85 $s_{\text{WER}}$ + 0.05 $s_{\text{IRTF}}$ + 0.05 $s_{\text{M
 ```python 
 def score(wer, irtf, mem_gb, report):
     s_wer = max(0, 1 - wer/15)
-    s_irtf = min(1, irtf/100)
+    s_irtf = (irtf-30/2970)
     s_mem = max(0, 1 - mem_gb/16)
-    s_doc = 1 if report_ok else 0
+    s_doc = report/100
     return 0.85*s_wer + 0.05*s_irtf + 0.05*s_mem + 0.05*s_doc
 
 A = score(wer=10, irtf=110, mem_gb=5,  report_ok=True)
