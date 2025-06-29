@@ -65,7 +65,7 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 ### Apply the original weights
 Final Score S: 0.85 $s_{\text{WER}}$ + 0.05 $s_{\text{IRTF}}$ + 0.05 $s_{\text{MEM}}$ + 0.05 $s_{\text{DOC}}$
 
-'''python 
+```python 
 def score(wer, irtf, mem_gb, report):
     s_wer = max(0, 1 - wer/15)
     s_irtf = min(1, irtf/100)
@@ -76,7 +76,7 @@ def score(wer, irtf, mem_gb, report):
 A = score(wer=10, irtf=110, mem_gb=5,  report_ok=True)
 B = score(wer=9,  irtf=105, mem_gb=6,  report_ok=True)
 print(f"System A = {A*100:.2f}%  |  System B = {B*100:.2f}%")
-'''
+```
 
 ##  Key Features
 
