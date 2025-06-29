@@ -49,9 +49,9 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 - **Optimization**: Fine-tuned on Kiswahili data
 - **Target WER**: less the better
 
-### Integration
+### Integration (STT + LLM)
 - **Memory Budget**: ≤16GB GPU memory
-- **Inverse Real-Time Factor**: >100 for STT
+- **Inverse Real-Time Factor (RTFx)**: >100 for STT
 
 ##  Evaluation Criteria
 
