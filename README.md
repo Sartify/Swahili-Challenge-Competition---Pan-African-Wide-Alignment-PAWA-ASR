@@ -4,14 +4,14 @@
 
 > **Tiny-Lugha: Efficient Kiswahili AI Speech Stack Challenge**
 > 
-> Build lightweight STT + LLM + TTS pipeline optimized for NVIDIA T4 GPU (≤16GB)
+> Build lightweight STT + LLM pipeline optimized for NVIDIA T4 GPU (≤16GB)
 
 ## Challenge Overview
 
-This repository provides starter notebooks for the ITU AI/ML Kiswahili EdgeVoice Challenge. The goal is to create voice to text AI system that:
+This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili EdgeVoice Challenge. The goal is to create a voice-to-text AI system that:
 
 1. **Speech-to-Text (STT)**: Transcribe Kiswahili audio with low Word Error Rate (WER)
-2. **Language Understanding**: Process text (translate from Swahili to English) through Pawa-Gemma-Swahili-2B
+2. **Language Understanding**: Process text (translate from Swahili to English) through Pawa-Swahili-2B
 
 **All running on a single NVIDIA T4 GPU within Google Colab's free tier!**
 
