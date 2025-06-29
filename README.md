@@ -38,7 +38,7 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 - **License**: CC-0 1.0
 
 ### Language Model
-- **Model**: [Pawa-Gemma-Swahili-2B](https://huggingface.co/sartifyllc/Pawa-Gemma-Swahili-2B)
+- **Model**: [Pawa-Swahili-2B](https://huggingface.co/sartifyllc/pawa-min-alpha)
 - **Parameters**: 2B
 - **License**: Apache 2.0
 
@@ -748,7 +748,7 @@ This starter code is released under Apache 2.0 license. Please ensure compliance
 
 - Mozilla Common Voice: CC-0 1.0
 - TTS Dataset: CC-BY 4.0 (attribution required)
-- Pawa-Gemma-Swahili-2B: Apache 2.0
+- pawa-min-alpha: Apache 2.0
 
 ##  Support
 
@@ -760,10 +760,8 @@ This starter code is released under Apache 2.0 license. Please ensure compliance
 
 Current baselines:
 - **STT WER**: 25.3%
-- **TTS MOS**: 3.1
 - **Memory Usage**: 12.8GB
 - **RTF**: 0.8x
-
 **Can you beat these numbers?** 🚀
 
 ---
