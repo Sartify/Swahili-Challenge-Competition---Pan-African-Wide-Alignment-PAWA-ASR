@@ -63,7 +63,7 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 | **Documentation** | Technical Report | 5% | Clear & reproducible |yes / no         | $s_{\text{DOC}}=1$ if clear, else 0 |
 
 ### Apply the original weights
-Final Score S: 0.85$s_{\text{IRTF}}$
+Final Score S: 0.85 $s_{\text{IRTF}}$
 
 ##  Key Features
 
