@@ -1,4 +1,4 @@
-# Kiswahili EdgeVoice Challenge 2025() - Starter Notebooks
+# Tiny-Lugha: Efficient Kiswahili AI Speech Stack Challenge 2025 - Starter Notebooks
 
 ![image alt](https://github.com/Sartify/swahili-challenge-competition/blob/main/image.jpeg)
 
