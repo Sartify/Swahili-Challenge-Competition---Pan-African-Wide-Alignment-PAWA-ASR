@@ -60,7 +60,7 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 | **STT** | Word Error Rate (WER) | 85% | <15 |lower is better | $s_{\text{WER}}=\max\!\bigl(0,\;1-\tfrac{\text{WER}}{15}\bigr)$ |
 | **STT** | Inverse Real-Time Factor | 5% | >100 | higher is better | $s_{\text{IRTF}}=\min\!\bigl(1,\;\tfrac{\text{IRTF}}{100}\bigr)$ |
 | **System** | Peak GPU Memory | 5% | lower is better  | <16GB | $s_{\text{MEM}}=\max\bigl(0,\;1-\tfrac{\text{MEM}}{16}\bigr)$  |
-| **Documentation** | Technical Report | 5% | Clear & reproducible |yes / no         | $s_{\text{DOC}}=\tfrac{\text{DOC}}{100}\bigr)$ |
+| **Documentation** | Technical Report | 5% | Clear & reproducible |higher is better         | $s_{\text{DOC}}=\bigl(\tfrac{\text{DOC}}{100}\bigr)$ |
 
 ### Apply the original weights
 Final Score S: 0.85 $s_{\text{WER}}$ + 0.05 $s_{\text{IRTF}}$ + 0.05 $s_{\text{MEM}}$ + 0.05 $s_{\text{DOC}}$
