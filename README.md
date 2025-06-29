@@ -57,9 +57,9 @@ This repository provides starter notebooks for the Sartify & ITU AI/ML Kiswahili
 
 | Component | Metric | Weight | Target | Direction | Per-Metric Scores |
 |-----------|---------|---------|---------| ---------| ---------|
-| **STT** | Word Error Rate (WER) | 85% | <15 |lower is better | $s_{\text{WER}}=\max\!\bigl(0,\;1-\tfrac{\text{WER}}{15}\bigr)$ |
+| **STT** | Word Error Rate (WER) | 85% | <15 |lower is better | $s_{\text{WER}}=\max\bigl(0,1-\tfrac{\text{WER}}{15}\bigr)$ |
 | **STT** | Inverse Real-Time Factor | 5% | >30 (1 hour audio= 2min transcription)[https://huggingface.co/spaces/hf-audio/open_asr_leaderboard] | higher is better | $s_{\text{IRTF}}=\bigl(\tfrac{\text{IRTF}-30}{2970}\bigr)$ |
-| **System** | Peak GPU Memory | 5% | <16GB  | lower is better | $s_{\text{MEM}}=\max\bigl(0,\;1-\tfrac{\text{MEM}}{16}\bigr)$  |
+| **System** | Peak GPU Memory | 5% | <16GB  | lower is better | $s_{\text{MEM}}=\max\bigl(0,1-\tfrac{\text{MEM}}{16}\bigr)$  |
 | **Documentation** | Technical Report | 5% | Clear & reproducible |higher is better         | $s_{\text{DOC}}=\bigl(\tfrac{\text{DOC}}{100}\bigr)$ |
 
 ### Apply the original weights
