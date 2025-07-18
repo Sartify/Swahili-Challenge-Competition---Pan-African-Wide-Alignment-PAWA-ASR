@@ -715,7 +715,7 @@ Your final submission should include:
 5. **Performance Metrics**: WER, RTFx, memory usage
 
 ##  Submission Dataset
-1. **Data**: ![image alt](https://huggingface.co/datasets/sartifyllc/Sartify_ITU_Zindi_Testdataset)
+1. **Data**: [sartifyllc/Sartify_ITU_Zindi_Testdataset](https://huggingface.co/datasets/sartifyllc/Sartify_ITU_Zindi_Testdataset)
 
 ## 🎯 Tips for Success
 
