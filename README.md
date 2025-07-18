@@ -714,6 +714,9 @@ Your final submission should include:
 4. **Demo Video**: Working prototype demonstration
 5. **Performance Metrics**: WER, RTFx, memory usage
 
+##  Submission Dataset
+1. **Data**: ![image alt](https://huggingface.co/datasets/sartifyllc/Sartify_ITU_Zindi_Testdataset)
+
 ## 🎯 Tips for Success
 
 ### Model Optimization
