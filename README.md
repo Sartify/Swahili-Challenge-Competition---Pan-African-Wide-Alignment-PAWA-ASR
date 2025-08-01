@@ -763,9 +763,9 @@ This starter code is released under Apache 2.0 license. Please ensure compliance
 ## 🏆 Leaderboard
 
 Current baselines:
-- **STT WER**: 25.3%
-- **Memory Usage**: 12.8GB
-- **RTF**: 0.8x
+- **STT WER**: 0.13%
+- **Memory Usage**: 6.8GB
+- **RTFx**: 30
 **Can you beat these numbers?** 🚀
 
 ---
