@@ -762,8 +762,8 @@ This starter code is released under Apache 2.0 license. Please ensure compliance
 
 ## 🏆 Leaderboard
 
-Current baselines:
-- **STT WER**: 0.13%
+Current baselines Sartify trained ASR:
+- **STT WER**: 0.13
 - **Memory Usage**: 6.8GB
 - **RTFx**: 30
 **Can you beat these numbers?** 🚀
