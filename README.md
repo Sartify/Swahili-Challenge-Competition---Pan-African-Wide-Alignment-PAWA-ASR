@@ -306,7 +306,8 @@ if __name__ == "__main__":
 ```python
 !pip install --upgrade "transformers>=4.52.0" "accelerate" 
 !pip install -U nemo_toolkit["asr"]
-!pip install -U datasets
+# !pip install -U datasets don't use this one since it is likely to not work
+!pip install datasets==3.5.1  # use this instead 
 
 
 from datasets import load_dataset, Features, Value, Audio
